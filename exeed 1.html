@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>charging and payment gateway</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        select, input {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Select Electric Vehicle Type</h2>
+    <select id="vehicleType">
+        <option value="1">Basic Electric Vehicle</option>
+        <option value="2">Hybrid Electric Vehicle</option>
+        <option value="3">Plug-in Hybrid Vehicle</option>
+        <option value="4">Fuel Cell Electric Vehicle</option>
+    </select>
+
+    <input type="number" id="batteryPercentage" placeholder="Enter Battery Percentage">
+
+    <h2>Select Payment Method</h2>
+    <select id="paymentMethod">
+        <option value="card">Credit/Debit Card</option>
+        <option value="upi">UPI</option>
+    </select>
+
+    <div id="cardDetails" style="display: none;">
+        <h2>Enter Card Details</h2>
+        <input type="text" id="cardNumber" placeholder="Card Number">
+        <input type="text" id="cvv" placeholder="CVV">
+        <input type="text" id="expiryDate" placeholder="Expiry Date (MM/YY)">
+    </div>
+
+    <div id="upiDetails" style="display: none;">
+        <h2>Enter UPI ID</h2>
+        <input type="text" id="upiId" placeholder="UPI ID">
+    </div>
+
+    <button onclick="makePayment()">Make Payment</button>
+</div>
+
+<script>
+    document.getElementById('paymentMethod').addEventListener('change', function () {
+        var cardDetails = document.getElementById('cardDetails');
+        var upiDetails = document.getElementById('upiDetails');
+
+        if (this.value === 'card') {
+            cardDetails.style.display = 'block';
+            upiDetails.style.display = 'none';
+        } else if (this.value === 'upi') {
+            cardDetails.style.display = 'none';
+            upiDetails.style.display = 'block';
+        }
+    });
+
+    function makePayment() {
+        var vehicleType = document.getElementById('vehicleType').value;
+        var batteryPercentage = document.getElementById('batteryPercentage').value;
+        var paymentMethod = document.getElementById('paymentMethod').value;
+
+        var cost;
+
+        switch (vehicleType) {
+            case '1':
+                cost = batteryPercentage * 0.2;
+                break;
+            case '2':
+                cost = batteryPercentage * 0.4;
+                break;
+            case '3':
+                cost = batteryPercentage * 0.3;
+                break;
+            case '4':
+                cost = batteryPercentage * 0.24;
+                break;
+        }
+
+        var paymentMessage = `Your vehicle is being charged. Cost: $${cost.toFixed(2)}`;
+
+        alert(paymentMessage);
+    }
+</script>
+
+</body>
+</html>
